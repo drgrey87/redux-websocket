@@ -1,6 +1,5 @@
 coverage
 lib
-dist
 
 # IntelliJ
 *.iml

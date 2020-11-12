@@ -1,0 +1,55 @@
+declare type WithProtocols = [string[]] | [string[], string];
+declare type WithPrefix = [string];
+declare type ConnectRestArgs = [] | WithPrefix | WithProtocols;
+declare type BuiltAction<T> = {
+    type: string;
+    meta: {
+        timestamp: Date;
+    };
+    payload?: T;
+};
+export declare const connect: (url: string, ...args: ConnectRestArgs) => BuiltAction<{
+    url: string;
+    protocols: string[] | undefined;
+}>;
+export declare const disconnect: (prefix?: string | undefined) => BuiltAction<{}>;
+export declare const send: (msg: any, prefix?: string | undefined) => BuiltAction<any>;
+export declare const beginReconnect: (prefix: string) => BuiltAction<{}>;
+export declare const reconnectAttempt: (count: number, prefix: string) => BuiltAction<{
+    count: number;
+}>;
+export declare const reconnected: (prefix: string) => BuiltAction<{}>;
+export declare const open: (event: Event, prefix: string) => BuiltAction<Event>;
+export declare const broken: (prefix: string) => BuiltAction<{}>;
+export declare const closed: (event: Event, prefix: string) => BuiltAction<Event>;
+export declare const message: (event: MessageEvent, prefix: string) => BuiltAction<{
+    event: MessageEvent;
+    message: any;
+    origin: string;
+}>;
+export declare const error: (originalAction: {
+    type: "CLOSED";
+    payload: any;
+    meta?: any;
+} | {
+    type: "CONNECT";
+    payload: any;
+    meta?: any;
+} | {
+    type: "DISCONNECT";
+    payload: any;
+    meta?: any;
+} | {
+    type: "MESSAGE";
+    payload: any;
+    meta?: any;
+} | {
+    type: "OPEN";
+    payload: any;
+    meta?: any;
+} | {
+    type: "SEND";
+    payload: any;
+    meta?: any;
+} | null, err: Error, prefix: string) => BuiltAction<Error>;
+export {};
